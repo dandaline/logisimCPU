@@ -6,6 +6,7 @@ A nother school project of a logisim 2.7.1 CPU simulation
 - testcode for ALU
 
 ## Setup
+- MUST BE logisim 2.7.1 or lower - logisim evolution won't open the .circ file correctly
 - download [logisim](http://www.cburch.com/logisim/download.html)
 - [logisim for arch distros](https://aur.archlinux.org/packages/logisim)
 - [logisim as snap package](https://snapcraft.io/logisim-snapcraft)
