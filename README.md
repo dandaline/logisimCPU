@@ -10,7 +10,7 @@ A nother school project of a logisim 2.7.1 CPU simulation
 - download [logisim](http://www.cburch.com/logisim/download.html)
 - [logisim for arch distros](https://aur.archlinux.org/packages/logisim)
 - [logisim as snap package](https://snapcraft.io/logisim-snapcraft)
-### Run existing number guessing game (guess.txt)
+### Run existing number guessing game (guess.txt) - german but little text 
 - run ./logisimCPU/CPU.circ with logisim
 - Menu->Simulate->TickFrquency
 - CTRL+K to run CTRL+R to reset
