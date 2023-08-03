@@ -1,0 +1,32 @@
+CU instruction decode
+
+instruction width 16Bit
+
+000 000 000  0000000
+R1  R2  R3   OpCode
+
+OpCode: 0 - 7F (0 - 126)
+
+Each row contains 8 numbers corresponding to the registers [PC, RA, ... ,RG]:
+
+Ziel: 0 - 80 - 100 - 180 - 200 - 280 - 300 - 380
+R2: 0 -400 - 800 - C00 - 1000 - 1400 - 1800 - 1C00
+R1: 0 - 2000 - 4000 - 6000 - 8000 - A000 - C000 - E000
+
+
+Bsp. ALU subtraktion: R1 - R2 = R3 (100 000 111 1110001)
+
+8000+
+0000+
+0380+
+0071
+= 83F1 = 100 000 111 1110001
+
+
+Bsp. ALU shift right: R1 SHR R2 = R3 (111 111 111 1111111)
+
+E000+
+1C00+
+0380+
+007F
+= FFFF = 111 111 111 1111111

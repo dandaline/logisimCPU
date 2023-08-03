@@ -1,0 +1,102 @@
+Control Unit Microcode
+
+instruction size: 16bit
+
+adress size: 20bit
+
+MSB				LSB
+0000	0000	0000	0000	0000
+other	mainOut	regBout	regAout	regWrite
+
+Bits:
+0 - 2: select register to write to
+3: enable write/input to register
+
+4 - 6: select register to read from A
+7: enable read for port A
+
+8 - 10: select register to read from B
+11: enable read for port B
+
+12: increment PC
+13: enable instruction word register
+14: Bus Buffer 15-8 of IW
+15: Bus Buffer ALU Result
+
+16: Bus Register Feedback
+17: RAM store enable
+18: RAM load enable
+19: ROM load enable
+
+
+format below as follows:
+
+instruction type
+fetch: 0x...
+decode: 0x...
+execute: 0x...
+write: 0x...
+
+NOP (0x0)
+03000 increment PC, enable IR to read instruction
+00000
+00000
+00000
+
+LDI (load constant from ROM into Reg) (0x40 - 0x47)
+03000
+00000
+04008 enable write pin and Bus Buffer for IW
+00000
+
+MOVE
+03000
+00000
+10008
+00000
+
+ALU
+03000
+00000
+08888 read R1, R2, execute Operation R1 . R2, write result to R3
+00000
+
+JZero		(if(a!=b){PC++} else{PC=dest})	ALU-Flags for jump:	01
+JNotZero		(if(a==b){PC++} else{PC=dest})	ALU-Flags for jump:	00
+JCarry		(if(a>b){PC++} else{PC=dest})	ALU-Flags for jump:	10
+JNotCarry	(if(a<b){PC++} else{PC=dest})	ALU-Flags for jump:	00
+03000 increment PC, enable IR to read instruction
+00000
+00000 
+00000
+else
+00000
+00000
+04008 enable write pin and Bus Buffer for IW
+00000
+
+ST
+03000
+00000
+30880
+00000
+
+LD
+03000
+00000
+40808
+00000
+
+LDPL/H
+03000
+00000
+40808
+00000
+
+
+
+
+
+
+
+

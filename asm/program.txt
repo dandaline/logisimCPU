@@ -1,0 +1,110 @@
+ldi 4 RA //BLOCK random number to RAM addr 0x0
+ld RB RA
+ldi 80 RA
+st RA RB
+
+ldi 0 RB //BLOCK "Errate Zahl:" to display
+ldi c0 RA #beginning of string
+ldi cb RC #end of string
+asciiIOL RA RB //<- jnzr -4 if(string to display incomplete) ID:0
+asciiIOH RA RB
+inc RA RA
+tst RC RA
+jnzr -4 //if(string to display incomplete) ID:0
+
+ldi 80 RE //BLOCK check user input yes/no?
+ldi 1 RA
+ldi 0 RG
+ld RB RA //<- jnzr -2 if(no KB entry) AND jnzr -a if(user input != 0xa aka ENTER) ID: 1,2
+tst RA RB
+jnzr -2 //if(no KB entry) ID:1
+
+inc RE RE //BLOCK write user input to RAM starting at adrr 0x1 until 0xa is entered
+ldi 3 RC
+ld RD RC
+st RE RD
+st RG RD 
+ldi a RF
+tst RD RF
+jnzr -a //if(user input != 0xa aka ENTER) ID:2
+
+mov RE RA //BLOCK size((user input numer) > 3)
+ldi 81 RB
+sub RA RB RB
+mov RB RG
+ldi 1 RC
+sub RA RC RA
+ldi 4 RC
+tst RB RC
+jnnr 34 // if(size(user input > 3)) ERROR! JUMP TO ERROR HANDLING! ID:3
+
+ld RC RA //BLOCK prüfe ob Zahl <- jnnr -b if(isInteger(user input) && not all inputs checked, keep checking) ID:4
+ldi 2f RD
+tst RD RC
+jnnr 30 // input < 2f -> not ascii integer ERROR! JUMP TO ERROR HANDLING! ID:3
+ldi 3a RD
+tst RC RD
+jnnr 2c //input > 39 -> not ascii integer ERROR! JUMP TO ERROR HANDLING! ID:3
+dec RA RA
+dec RB RB
+ldi 1 RC
+tst RB RC
+jnnr -b // if(isInteger(user input) && not all inputs checked, keep checking) ID:4
+
+ldi 0 RD //BLOCK consolidate all input integers [0...9] into one number and check if bigger than 8 bit
+ldi 0f RB 
+dec RE RE //<- jnzr -9 if(not all single integers consolidated) ID:5
+ld RA RE
+& RA RB RA
+mult RA RC RA
+jc 56 // if(input > 8 bit) ERROR! JUMP TO ERROR HANDLING! ID:3
+mult RC RF RC
+add RA RD RD
+jc 56 //if(input > 8 bit) ERROR! JUMP TO ERROR HANDLING! ID:3
+dec RG RG
+jnzr -9 // if(not all single integers consolidated) ID:5
+
+dec RE RE //BLOCK check if user guessed correct
+ld RF RE
+tst RD RF
+jz 40 //if(random number == user input) CORRECT ID:6
+jnz 4b //if(random number != user input) INCORRECT ID:7 
+
+ldi 0 RB //BLOCK <- jz 40 if(random number == user input) CORRECT ID:6
+ldi cc RA
+ldi d2 RC
+asciiIOL RA RB jnzr // -4 if(string to display incomplete) ID:8
+asciiIOH RA RB
+inc RA RA
+tst RC RA
+jnzr -4 // jnzr -4 if(string to display incomplete) ID:8
+
+ldi 0 RA //BLOCK NEXT ROUND OF THE GAME
+ldi 0 RB
+jz 0
+
+ldi 0 RB //BLOCK <- jnz 4b if(random number != user input) INCORRECT  ID:7
+ldi d2 RA
+ldi dd RC
+asciiIOL RA RB // jnzr -4 if(string to display incomplete) ID:9
+asciiIOH RA RB
+inc RA RA
+tst RC RA
+jnzr -4  // jnzr -4 if(string to display incomplete) ID:9
+
+ldi 0 RA //BLOCK NEXT ROUND OF THE GAME
+ldi 0 RB
+jz 0
+
+ldi 0 RB //BLOCK <- multiple jumps if(ERROR HANDLING) ID:3
+ldi dd RA
+ldi f7 RC
+asciiIOL RA RB // jnzr -4 if(string to display incomplete) ID:10
+asciiIOH RA RB
+inc RA RA
+tst RC RA
+jnzr -4 // jnzr -4 if(string to display incomplete) ID:10
+
+ldi 0 RA //BLOCK NEXT ROUND OF THE GAME
+ldi 0 RB
+jz 0
