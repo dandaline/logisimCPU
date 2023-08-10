@@ -1,4 +1,4 @@
-CU instruction decode
+CU instruction decode (CU microcode)
 
 instruction width 16Bit
 
@@ -14,7 +14,7 @@ R2: 0 -400 - 800 - C00 - 1000 - 1400 - 1800 - 1C00
 R1: 0 - 2000 - 4000 - 6000 - 8000 - A000 - C000 - E000
 
 
-Bsp. ALU subtraktion: R1 - R2 = R3 (100 000 111 1110001)
+Example. ALU subtraktion: R1 - R2 = R3 (100 000 111 1110001)
 
 8000+
 0000+
@@ -23,7 +23,7 @@ Bsp. ALU subtraktion: R1 - R2 = R3 (100 000 111 1110001)
 = 83F1 = 100 000 111 1110001
 
 
-Bsp. ALU shift right: R1 SHR R2 = R3 (111 111 111 1111111)
+Example. ALU shift right: R1 SHR R2 = R3 (111 111 111 1111111)
 
 E000+
 1C00+
